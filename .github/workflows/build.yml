@@ -31,21 +31,21 @@ jobs:
 
       - name: Upload Windows artifact
         if: matrix.os == 'windows-latest'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android-autoclicker-windows
           path: dist/android-autoclicker/
 
       - name: Upload macOS artifact
         if: matrix.os == 'macos-latest'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android-autoclicker-macos
           path: dist/android-autoclicker/
 
       - name: Upload Linux artifact
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android-autoclicker-linux
           path: dist/android-autoclicker/
@@ -57,7 +57,7 @@ jobs:
 
     steps:
       - name: Download all artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
