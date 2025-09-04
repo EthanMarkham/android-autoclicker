@@ -6,17 +6,21 @@ import cv2
 from typing import Optional, Tuple, List
 from src.utils.logging import app_logger
 
-def find_template(device_id: str, template_path: str, threshold: float = 0.8) -> Optional[Tuple[int, int]]:
+def find_template(device_id: str, template_path: str, threshold: Optional[float] = None) -> Optional[Tuple[int, int]]:
     """Find a template in the current screen without waiting
     
     Args:
         device_id: ADB device ID
         template_path: Path to template image
-        threshold: Match confidence threshold
+        threshold: Match confidence threshold. If None, uses config value.
         
     Returns:
         Tuple of (x, y) coordinates if found, None otherwise
     """
+    # Use config threshold if not provided
+    if threshold is None:
+        from src.utils.config import config
+        threshold = config.get('image_matching.threshold', 0.8)
     try:
         # Take screenshot
         screenshot_path = f"tmp/screen_{int(time.time())}.png"
