@@ -9,8 +9,24 @@ An automated clicking bot for mobile games using ADB (Android Debug Bridge) and 
 - 🖼️ **Custom Templates**: Use your own template images
 - 📊 **Debug Logging**: Detailed logging for troubleshooting
 - 🚀 **Standalone Executable**: No Python installation required for end users
+- 📦 **Pre-built Downloads**: Get ready-to-use executables from [GitHub Releases](https://github.com/yourusername/android-autoclicker/releases)
 
 ## Quick Start
+
+### For End Users (Recommended)
+
+**Download pre-built executables from GitHub Releases:**
+
+1. **Go to the [Releases page](https://github.com/EthanMarkham/android-autoclicker/releases)**
+2. **Download the latest release for your platform:**
+   - **Windows**: `android-autoclicker-windows.zip`
+   - **macOS**: `android-autoclicker-macos.zip`
+   - **Linux**: `android-autoclicker-linux.zip`
+3. **Extract the zip file**
+4. **Install ADB** (see Prerequisites below)
+5. **Run the executable** (see Usage below)
+
+> **Note**: The executables are automatically built and uploaded to GitHub Releases whenever a new version is tagged. No need to build anything yourself!
 
 ### For Developers
 
@@ -157,8 +173,109 @@ clicker/
 
 ## License
 
-[Add your license here]
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### MIT License Summary
+
+- ✅ Commercial use allowed
+- ✅ Modification allowed
+- ✅ Distribution allowed
+- ✅ Private use allowed
+- ❌ No liability or warranty provided
+
+## GitHub Releases
+
+### How to Get Built Executables
+
+1. **Visit the [Releases page](https://github.com/yourusername/android-autoclicker/releases)**
+2. **Find the latest release** (e.g., v1.0.0)
+3. **Download the appropriate file for your platform:**
+   - `android-autoclicker-windows.zip` - For Windows
+   - `android-autoclicker-macos.zip` - For macOS (Intel + Apple Silicon)
+   - `android-autoclicker-linux.zip` - For Linux
+4. **Extract the zip file** to any folder
+5. **Follow the usage instructions** in the extracted README.txt
+
+### Automatic Builds
+
+- **Every time a new version is tagged**, GitHub Actions automatically builds executables for all platforms
+- **No manual intervention required** - the builds happen automatically
+- **All dependencies included** - just download and run!
+
+### Latest Release
+
+[![Latest Release](https://img.shields.io/github/v/release/yourusername/android-autoclicker?style=for-the-badge)](https://github.com/yourusername/android-autoclicker/releases/latest)
 
 ## Contributing
 
-[Add contribution guidelines here]
+We welcome contributions! Here's how you can help:
+
+### 🐛 Bug Reports
+
+- Use the [Issues](https://github.com/EthanMarkham/android-autoclicker/issues) page
+- Include: OS, Python version, error messages, steps to reproduce
+- Check existing issues first
+
+### 💡 Feature Requests
+
+- Open an [Issue](https://github.com/EthanMarkham/android-autoclicker/issues) with the "enhancement" label
+- Describe the feature and its use case
+- Consider if it fits the project's scope
+
+### 🔧 Code Contributions
+
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
+3. **Make your changes** and test thoroughly
+4. **Commit with clear messages**: `git commit -m "Add amazing feature"`
+5. **Push to your fork**: `git push origin feature/amazing-feature`
+6. **Open a Pull Request**
+
+### 📋 Development Setup
+
+```bash
+# Clone your fork
+git clone https://github.com/YOUR_USERNAME/android-autoclicker.git
+cd android-autoclicker
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run tests
+python run.py --help
+
+# Build executable
+python build.py
+```
+
+### 🎯 Areas for Contribution
+
+- **Bug fixes** - Fix issues and improve stability
+- **New features** - Add useful functionality
+- **Documentation** - Improve README, code comments, examples
+- **Testing** - Add tests for better reliability
+- **Cross-platform** - Ensure compatibility across platforms
+- **Performance** - Optimize image processing and automation speed
+
+### 📝 Code Style
+
+- Follow existing code patterns
+- Use clear, descriptive variable names
+- Add comments for complex logic
+- Keep functions focused and small
+- Test your changes thoroughly
+
+### 🤝 Community Guidelines
+
+- Be respectful and constructive
+- Help others learn and grow
+- Follow the [Code of Conduct](CODE_OF_CONDUCT.md)
+- Remember: we're all here to build something great together!
+
+---
+
+**Thank you for contributing to Android AutoClicker!** 🚀
