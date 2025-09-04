@@ -96,6 +96,17 @@ def create_standalone_package():
         shutil.copytree('images', standalone_dir / 'images')
         print("Copied images directory to standalone package")
     
+    # Copy config file if it exists
+    if Path('config.json').exists():
+        shutil.copy2('config.json', standalone_dir / 'config.json')
+        print("Copied config.json to standalone package")
+    else:
+        # Create default config file
+        from src.utils.config import Config
+        config = Config()
+        config.save(str(standalone_dir / 'config.json'))
+        print("Created default config.json in standalone package")
+    
     # Create README for standalone version
     readme_content = """# Android AutoClicker
 
@@ -121,9 +132,38 @@ def create_standalone_package():
 # Enable debug logging
 ./android-autoclicker --debug
 
-# Custom template with debug
-./android-autoclicker /path/to/your/template.png --debug
+# Select specific device (when multiple connected)
+./android-autoclicker --device 1
+
+# Override configuration values
+./android-autoclicker --threshold 0.9 --click-speed 0.05 0.15
+
+# Click at specific coordinates
+./android-autoclicker --coordinates 500 300
+
+# Disable template rescanning
+./android-autoclicker --scan-interval 0
+
+# Use coordinate mode
+./android-autoclicker --click-mode coordinates
+
+# Use custom config file
+./android-autoclicker --config /path/to/config.json
 ```
+
+## Configuration
+The bot uses `config.json` for settings. You can:
+1. Edit `config.json` directly to change default values
+2. Use command line arguments to override specific settings
+3. Create your own config file with `--config` option
+
+### Available Settings
+- **click_speed**: Random delay range between clicks (seconds)
+- **image_matching.threshold**: Template matching confidence (0.0-1.0)
+- **automation.scan_interval**: How often to rescan for template (seconds). Set to null to disable.
+- **automation.random_offset**: Click randomization offset (pixels)
+- **click_mode.mode**: Click mode - "template" or "coordinates"
+- **coordinates.x/y**: Fixed coordinates for clicking (coordinate mode only)
 
 ## Template Images
 - Place your template images in the same directory as the executable
