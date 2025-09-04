@@ -159,22 +159,22 @@ def main():
     
     # Build executable
     if build_executable():
-        print("\n✅ Executable built successfully!")
+        print("\n[SUCCESS] Executable built successfully!")
         
         # Create standalone package
         standalone_dir = create_standalone_package()
         
         if standalone_dir:
-            print(f"\n🎉 Build complete!")
+            print(f"\n[COMPLETE] Build complete!")
             print(f"Standalone package: {standalone_dir}")
             print("\nTo distribute:")
             print(f"1. Share the entire '{standalone_dir.name}' folder")
             print("2. Recipients need ADB installed (see README.txt)")
             print("3. They can run: android-autoclicker --help")
         else:
-            print("\n❌ Failed to create standalone package!")
+            print("\n[ERROR] Failed to create standalone package!")
     else:
-        print("\n❌ Build failed!")
+        print("\n[ERROR] Build failed!")
         sys.exit(1)
 
 if __name__ == '__main__':
