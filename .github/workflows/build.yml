@@ -62,13 +62,31 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
 
+      - name: Create Windows zip
+        run: |
+          cd android-autoclicker-windows
+          zip -r ../android-autoclicker-windows.zip .
+          cd ..
+
+      - name: Create macOS zip
+        run: |
+          cd android-autoclicker-macos
+          zip -r ../android-autoclicker-macos.zip .
+          cd ..
+
+      - name: Create Linux zip
+        run: |
+          cd android-autoclicker-linux
+          zip -r ../android-autoclicker-linux.zip .
+          cd ..
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            android-autoclicker-windows/*
-            android-autoclicker-macos/*
-            android-autoclicker-linux/*
+            android-autoclicker-windows.zip
+            android-autoclicker-macos.zip
+            android-autoclicker-linux.zip
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
