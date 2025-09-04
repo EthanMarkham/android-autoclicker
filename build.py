@@ -54,22 +54,42 @@ def create_standalone_package():
     # Create standalone directory
     standalone_dir = dist_dir / 'android-autoclicker'
     if standalone_dir.exists():
-        shutil.rmtree(standalone_dir)
+        if standalone_dir.is_file():
+            standalone_dir.unlink()  # Remove if it's a file
+        else:
+            shutil.rmtree(standalone_dir)  # Remove if it's a directory
     standalone_dir.mkdir()
     
-    # Copy executable
-    exe_name = 'android-autoclicker.exe' if os.name == 'nt' else 'android-autoclicker'
-    exe_path = dist_dir / exe_name
-    if exe_path.exists():
-        shutil.copy2(exe_path, standalone_dir / exe_name)
-        print(f"Copied {exe_name} to standalone package")
-        
-        # Make executable on Unix systems
-        if os.name != 'nt':
-            os.chmod(standalone_dir / exe_name, 0o755)
+    # Handle different platform outputs
+    if os.name == 'nt':
+        # Windows: single .exe file
+        exe_name = 'android-autoclicker.exe'
+        exe_path = dist_dir / exe_name
+        if exe_path.exists():
+            shutil.copy2(exe_path, standalone_dir / exe_name)
+            print(f"Copied {exe_name} to standalone package")
+        else:
+            print(f"Warning: Executable {exe_name} not found!")
+            return None
     else:
-        print(f"Warning: Executable {exe_name} not found!")
-        return None
+        # macOS/Linux: directory structure
+        exe_name = 'android-autoclicker'
+        exe_dir = dist_dir / exe_name
+        
+        if exe_dir.exists() and exe_dir.is_dir():
+            # Copy the entire directory contents
+            for item in exe_dir.iterdir():
+                if item.is_file():
+                    shutil.copy2(item, standalone_dir / item.name)
+                    if item.name == exe_name:
+                        os.chmod(standalone_dir / exe_name, 0o755)
+                        print(f"Copied {exe_name} to standalone package")
+                elif item.is_dir():
+                    shutil.copytree(item, standalone_dir / item.name)
+            print(f"Copied {exe_name} directory contents to standalone package")
+        else:
+            print(f"Warning: Executable directory {exe_name} not found!")
+            return None
     
     # Copy images directory
     if Path('images').exists():
