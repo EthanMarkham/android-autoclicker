@@ -54,6 +54,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+      packages: write
 
     steps:
       - name: Download all artifacts
@@ -63,9 +66,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            android-autoclicker-windows/android-autoclicker/*
-            android-autoclicker-macos/android-autoclicker/*
-            android-autoclicker-linux/android-autoclicker/*
+            android-autoclicker-windows/*
+            android-autoclicker-macos/*
+            android-autoclicker-linux/*
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
