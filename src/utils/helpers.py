@@ -60,8 +60,16 @@ def check_adb_installation() -> bool:
     except (subprocess.TimeoutExpired, FileNotFoundError, subprocess.SubprocessError):
         return False
 
-def get_connected_device() -> Optional[str]:
-    """Get the first connected device ID"""
+def get_connected_device(device_index: Optional[int] = None) -> Optional[str]:
+    """Get connected device ID with optional selection
+    
+    Args:
+        device_index: Optional device index to select. If None and multiple devices,
+                     will prompt user for selection.
+    
+    Returns:
+        Selected device ID or None if no devices or selection failed
+    """
     # First check if ADB is installed
     if not check_adb_installation():
         app_logger.error("❌ ADB (Android Debug Bridge) is not installed or not in PATH")
@@ -89,6 +97,61 @@ def get_connected_device() -> Optional[str]:
         app_logger.error("3. You've authorized the computer on your device")
         app_logger.error("4. Test by running: adb devices")
         return None
-    if len(devices) > 1:
-        app_logger.warning(f"Multiple devices found, using first one: {devices[0]}")
-    return devices[0] 
+    
+    if len(devices) == 1:
+        app_logger.info(f"Using device: {devices[0]}")
+        return devices[0]
+    
+    # Multiple devices - handle selection
+    if device_index is not None:
+        if 0 <= device_index < len(devices):
+            selected_device = devices[device_index]
+            app_logger.info(f"Using device {device_index}: {selected_device}")
+            return selected_device
+        else:
+            app_logger.error(f"Invalid device index: {device_index}. Must be between 0 and {len(devices)-1}")
+            return None
+    
+    # Interactive selection
+    return _select_device_interactive(devices)
+
+def _select_device_interactive(devices: list) -> Optional[str]:
+    """Interactively select a device from multiple options
+    
+    Args:
+        devices: List of available device IDs
+        
+    Returns:
+        Selected device ID or None if selection failed
+    """
+    print(f"\n🔍 Found {len(devices)} connected device(s):")
+    print("=" * 50)
+    
+    for i, device in enumerate(devices):
+        print(f"  {i}: {device}")
+    
+    print("=" * 50)
+    
+    while True:
+        try:
+            choice = input(f"\nSelect device (0-{len(devices)-1}): ").strip()
+            if not choice:
+                app_logger.error("No selection made")
+                return None
+                
+            device_index = int(choice)
+            if 0 <= device_index < len(devices):
+                selected_device = devices[device_index]
+                app_logger.info(f"Selected device: {selected_device}")
+                return selected_device
+            else:
+                print(f"Please enter a number between 0 and {len(devices)-1}")
+                
+        except ValueError:
+            print("Please enter a valid number")
+        except KeyboardInterrupt:
+            app_logger.info("Device selection cancelled")
+            return None
+        except EOFError:
+            app_logger.error("Input ended unexpectedly")
+            return None 
